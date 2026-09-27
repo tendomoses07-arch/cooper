@@ -2,10 +2,10 @@
   "name": "cooper-backend",
   "version": "1.0.0",
   "description": "COOPER Complex Hub Backend API",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "node ./node_modules/typescript/bin/tsc && node -e \"const fs=require('fs'); fs.mkdirSync('dist/database', {recursive:true}); fs.copyFileSync('src/database/schema.sql', 'dist/database/schema.sql');\"",
     "start": "node dist/server.js",
     "test": "tsx tests/run-tests.ts"
   },

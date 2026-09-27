@@ -90,11 +90,11 @@ export function logAuditAction(
   actor: { id?: string; email?: string; role?: string },
   action: string,
   resourceType: string,
-  resourceId?: string,
+  resourceId?: string | string[],
   previousValue?: any,
   newValue?: any,
   reason?: string,
-  ipAddress?: string
+  ipAddress?: string | string[]
 ) {
   try {
     const id = uuidv4();
@@ -104,6 +104,8 @@ export function logAuditAction(
       const userExists = db.get('SELECT id FROM users WHERE id = ?', [actor.id]);
       if (userExists) validActorId = actor.id;
     }
+    const ip = Array.isArray(ipAddress) ? ipAddress[0] : (ipAddress || '127.0.0.1');
+    const resId = Array.isArray(resourceId) ? resourceId[0] : (resourceId || null);
     db.run(
       `INSERT INTO audit_logs (id, actor_id, actor_email, actor_role, action, resource_type, resource_id, previous_value, new_value, ip_address, reason, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -114,10 +116,10 @@ export function logAuditAction(
         actor.role || 'SYSTEM',
         action,
         resourceType,
-        resourceId || null,
+        resId,
         previousValue ? JSON.stringify(previousValue) : null,
         newValue ? JSON.stringify(newValue) : null,
-        ipAddress || '127.0.0.1',
+        ip,
         reason || null,
         now
       ]

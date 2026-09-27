@@ -104,7 +104,7 @@ app.get('/api/admin/kyc', [authenticate, authorize('SUPER_ADMIN', 'COMPLIANCE_OF
 app.post('/api/admin/kyc/:id/review', [authenticate, authorize('SUPER_ADMIN', 'COMPLIANCE_OFFICER')], kycController.reviewKYC);
 
 // Finance Administration
-app.get('/api/admin/withdrawals', [authenticate, authorize('SUPER_ADMIN', 'FINANCE_OFFICER')], (req, res) => {
+app.get('/api/admin/withdrawals', [authenticate, authorize('SUPER_ADMIN', 'FINANCE_OFFICER')], (req: express.Request, res: express.Response) => {
   const withdrawals = db.query(`
     SELECT w.*, u.email as user_email, u.first_name, u.last_name
     FROM withdrawals w
@@ -115,7 +115,7 @@ app.get('/api/admin/withdrawals', [authenticate, authorize('SUPER_ADMIN', 'FINAN
 });
 app.post('/api/admin/withdrawals/:id/review', [authenticate, authorize('SUPER_ADMIN', 'FINANCE_OFFICER')], withdrawalController.reviewWithdrawal);
 
-app.get('/api/admin/deposits', [authenticate, authorize('SUPER_ADMIN', 'FINANCE_OFFICER')], (req, res) => {
+app.get('/api/admin/deposits', [authenticate, authorize('SUPER_ADMIN', 'FINANCE_OFFICER')], (req: express.Request, res: express.Response) => {
   const deposits = db.query(`
     SELECT d.*, u.email as user_email, u.first_name, u.last_name
     FROM deposits d

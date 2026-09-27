@@ -2,11 +2,18 @@
   "name": "cooper-complex-hub",
   "version": "1.0.0",
   "description": "COOPER Complex Hub - Full Stack Fintech Platform",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
     "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "start": "node backend/dist/server.js",
     "test": "npm run test --prefix backend"
   },
   "dependencies": {
