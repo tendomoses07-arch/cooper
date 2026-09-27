@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
 import { config } from './config';
 import { initDatabase } from './database/db';
 import { seedDatabase } from './database/seed';
@@ -138,6 +140,32 @@ app.post('/api/admin/live-checklist', [authenticate, authorize('SUPER_ADMIN', 'C
 
 // Reports Export
 app.get('/api/admin/reports/:type/csv', adminAuth, reportController.exportReport);
+
+// Serve frontend SPA in production if built
+const frontendDistCandidates = [
+  path.join(__dirname, '..', '..', 'frontend', 'dist'),
+  path.join(process.cwd(), 'frontend', 'dist'),
+  path.join(__dirname, '..', 'frontend', 'dist')
+];
+
+let frontendDist: string | null = null;
+for (const cand of frontendDistCandidates) {
+  if (fs.existsSync(cand) && fs.existsSync(path.join(cand, 'index.html'))) {
+    frontendDist = cand;
+    break;
+  }
+}
+
+if (frontendDist) {
+  console.log(`[SERVER] Serving static frontend build from: ${frontendDist}`);
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist!, 'index.html'));
+  });
+}
 
 // Global Error Handler
 app.use(errorHandler);

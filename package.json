@@ -17,6 +17,7 @@
     "test": "npm run test --prefix backend"
   },
   "dependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
   }
 }
