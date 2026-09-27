@@ -55,7 +55,7 @@ if (!vitePath) {
 // Run typecheck
 if (tscPath) {
   console.log(`[BUILD] Running TypeScript check via Node: ${tscPath}`);
-  execSync(`node "${tscPath}" -b`, { stdio: 'inherit', cwd: __dirname });
+  execSync(`"${process.execPath}" "${tscPath}" -b`, { stdio: 'inherit', cwd: __dirname });
 } else {
   console.log('[BUILD] Running TypeScript check via npx...');
   execSync('npx tsc -b', { stdio: 'inherit', cwd: __dirname });
@@ -64,7 +64,7 @@ if (tscPath) {
 // Run Vite build
 if (vitePath) {
   console.log(`[BUILD] Running Vite build via Node: ${vitePath}`);
-  execSync(`node "${vitePath}" build`, { stdio: 'inherit', cwd: __dirname });
+  execSync(`"${process.execPath}" "${vitePath}" build`, { stdio: 'inherit', cwd: __dirname });
 } else {
   console.log('[BUILD] Running Vite build via npx...');
   execSync('npx vite build', { stdio: 'inherit', cwd: __dirname });

@@ -33,7 +33,7 @@ if (!tscPath) {
 
 if (tscPath) {
   console.log(`[BUILD] Invoking TypeScript via Node from: ${tscPath}`);
-  execSync(`node "${tscPath}"`, { stdio: 'inherit', cwd: __dirname });
+  execSync(`"${process.execPath}" "${tscPath}"`, { stdio: 'inherit', cwd: __dirname });
 } else {
   console.log('[BUILD] Invoking TypeScript via npx/npm exec...');
   try {
@@ -62,7 +62,7 @@ if (!fs.existsSync(frontendDistHtml) && fs.existsSync(frontendDir)) {
   try {
     const frontendBuildScript = path.join(frontendDir, 'build.cjs');
     if (fs.existsSync(frontendBuildScript)) {
-      execSync(`node "${frontendBuildScript}"`, { stdio: 'inherit', cwd: frontendDir });
+      execSync(`"${process.execPath}" "${frontendBuildScript}"`, { stdio: 'inherit', cwd: frontendDir });
     } else {
       execSync('npm run build', { stdio: 'inherit', cwd: frontendDir });
     }
