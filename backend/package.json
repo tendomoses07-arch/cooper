@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "node ./node_modules/typescript/bin/tsc && node -e \"const fs=require('fs'); fs.mkdirSync('dist/database', {recursive:true}); fs.copyFileSync('src/database/schema.sql', 'dist/database/schema.sql');\"",
+    "build": "node build.js",
     "start": "node dist/server.js",
     "test": "tsx tests/run-tests.ts"
   },
